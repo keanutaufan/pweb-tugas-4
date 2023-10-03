@@ -1,5 +1,10 @@
 async function getWeatherData() {
   const query = document.getElementById("search").value;
+
+  document.getElementById("info").style.display = "none";
+  document.getElementById("notfound").style.display = "block";
+  document.getElementById("notfound").innerText = `Loading data for '${query.replace(/^./, query[0].toUpperCase())}'...`;
+
   const res = await fetch(`https://goweather.herokuapp.com/weather/${query}`);
   const data = await res.json();
 
