@@ -1,9 +1,14 @@
+function capitalizeString(str) {
+  const words = str.split(" ").map(word => word[0].toUpperCase() + word.slice(1)).join(" ");
+  return words;
+}
+
 async function getWeatherData() {
-  const query = document.getElementById("search").value;
+  const query = capitalizeString(document.getElementById("search").value);
 
   document.getElementById("info").style.display = "none";
   document.getElementById("notfound").style.display = "block";
-  document.getElementById("notfound").innerText = `Loading data for '${query.replace(/^./, query[0].toUpperCase())}'...`;
+  document.getElementById("notfound").innerText = `Loading data for '${query}'...`;
 
   const res = await fetch(`https://goweather.herokuapp.com/weather/${query}`);
   const data = await res.json();
@@ -11,7 +16,7 @@ async function getWeatherData() {
   if (res.status == 404) {
     document.getElementById("info").style.display = "none";
     document.getElementById("notfound").style.display = "block";
-    document.getElementById("notfound").innerText = `City '${query.replace(/^./, query[0].toUpperCase())}' not found`;
+    document.getElementById("notfound").innerText = `City '${query}' not found`;
     return;
   }
 
@@ -19,7 +24,7 @@ async function getWeatherData() {
   document.getElementById("info").style.display = "flex";
   document.getElementById("notfound").style.display = "none";
 
-  document.getElementById("city-name").innerText = `Weather of ${query.replace(/^./, query[0].toUpperCase())}`;
+  document.getElementById("city-name").innerText = `Weather of ${query}`;
   document.getElementById("temperature").innerText = data.temperature;
   document.getElementById("wind").innerText = data.wind;
 }
